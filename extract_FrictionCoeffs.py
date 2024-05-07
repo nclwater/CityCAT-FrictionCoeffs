@@ -4,11 +4,12 @@ import geopandas as gpd
 #from citycatio.utils import geoseries_to_string
 import os
 
-def geoseries_to_string(geoseries: gpd.GeoSeries, value, index=False, index_first=True):
+def geoseries_with_value_to_string(geoseries: gpd.GeoSeries, value, index=False, index_first=True):
     """GeoSeries to CityCAT string representation
 
     Args:
         geoseries: Polygons to convert
+        value: Fraction coefficient value
         index: Whether or not to include the index
         index_first: Whether or not to place the index before the number of points
     Returns:
@@ -37,10 +38,10 @@ def geoseries_to_string(geoseries: gpd.GeoSeries, value, index=False, index_firs
     return s
 
 class FrictionCoefficents:
-    """Areas representing permeable land cover
+    """Areas representing different friction coefficents
 
     Args:
-        data: Table containing green areas polygons
+        data: Table containing Fraction coefficient polygons
 
     """
     def __init__(self, data: gpd.GeoDataFrame):
@@ -49,7 +50,7 @@ class FrictionCoefficents:
 
     def write(self, path):
         with open(os.path.join(path, 'FrictionCoeffs.txt'), 'w') as f:
-            f.write(geoseries_to_string(self.data.geometry,self.data.Value))
+            f.write(geoseries_with_value_to_string(self.data.geometry,self.data.Value))
 
 
 input_folder = r'C:\Users\steve\Documents\citycat\FrictionCoeffs/'
